@@ -32,6 +32,7 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = MockConfig.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class WatcherServiceImplTest {
 
     @Autowired
@@ -59,7 +60,7 @@ public class WatcherServiceImplTest {
 
     @Test
     public void testIsRecommended() throws Exception {
-        watcherService.isSerialRecommended("jeka",GAME_OF_THRONES,)
+//        watcherService.isSerialRecommended("jeka",GAME_OF_THRONES)
 
     }
 }
