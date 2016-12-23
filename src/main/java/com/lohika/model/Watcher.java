@@ -6,6 +6,10 @@ import lombok.*;
 import java.util.List;
 import java.util.Map;
 
+import static com.lohika.contsants.Serials.GAME_OF_THRONES;
+import static com.lohika.contsants.Serials.LOST;
+import static com.lohika.contsants.Serials.PRISON_BREAK;
+
 /**
  * Created by Evegeny on 23/12/2016.
  */
@@ -29,7 +33,7 @@ public class Watcher {
     public static void main(String[] args) {
 
         Watcher watcher = Watcher.builder().age(12).id(12).name("Vasya")
-                .priority("drama", 70).priority("action", 90).build();
+                .priority("drama", 70).priority("action", 90).favoriteSerial(LOST).favoriteSerial(PRISON_BREAK).build();
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(watcher);
