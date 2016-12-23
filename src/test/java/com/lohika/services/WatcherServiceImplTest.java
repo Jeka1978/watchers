@@ -1,7 +1,19 @@
 package com.lohika.services;
 
+import com.lohika.MockConfig;
+import com.lohika.Real;
+import com.lohika.model.RecommendationForSerial;
 import com.lohika.model.Watcher;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +30,53 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Evegeny on 23/12/2016.
  */
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = MockConfig.class)
 public class WatcherServiceImplTest {
-    private List<Watcher> watchers;
+
+    @Autowired
+    @Real
+    private WatcherService watcherService;
+
+    @Autowired
+    private WatcherDao watcherDao;
+
 
     @Before
     public void setUp() {
-        watchers = new ArrayList<>();
-        watchers.add(Watcher.builder().favoriteSerial(GAME_OF_THRONES).favoriteSerial(LOST).priority(DRAMA, 100).priority(ACTION, 20).build());
-        watchers.add(Watcher.builder().favoriteSerial(LOST).favoriteSerial(GAME_OF_THRONES).favoriteSerial(PRISON_BREAK).priority(DRAMA, 90).priority(ACTION, 60).build());
-        watchers.add(Watcher.builder().favoriteSerial(LOST).favoriteSerial(GAME_OF_THRONES).priority(DRAMA, 100).priority(ACTION, 20).build());
-      /*  when(watcherDao.findByRecommendationsContains(anyString())).thenReturn(watchers);
-        when(watcherDao.findAll()).thenReturn(watchers);*/
+        RestTemplate restTemplate = new RestTemplate();
+        Mockito.when(watcherDao.findByName(anyString())).
+                thenReturn(Watcher.builder().priority(DRAMA, 80).priority(ACTION, 60).build());
 
     }
 
+    @Test
+    public void countRecommendationsTest() throws Exception {
+        RecommendationForSerial recommendationForSerial = watcherService.countRecommendations(GAME_OF_THRONES);
+        Assert.assertEquals(3,recommendationForSerial.getTotalUsers());
+        Assert.assertEquals(3,recommendationForSerial.getPositiveUsers());
+    }
 
+    @Test
+    public void testIsRecommended() throws Exception {
+        watcherService.isSerialRecommended("jeka",GAME_OF_THRONES,)
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

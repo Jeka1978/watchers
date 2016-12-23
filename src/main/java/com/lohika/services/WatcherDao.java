@@ -4,9 +4,13 @@ import com.lohika.model.Watcher;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 /**
  * Created by Evegeny on 23/12/2016.
  */
 public interface WatcherDao extends MongoRepository<Watcher,Integer>{
     Watcher findByName(@Param("name") String name);
+
+    List<Watcher> findByFavoriteSerialsContains(String nameOfTheSerial);
 }
